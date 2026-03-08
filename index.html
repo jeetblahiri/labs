@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroSys Lab — IIT Mandi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ivory:    #faf8f4;
+  --paper:    #f3f0eb;
+  --paper2:   #ede9e2;
+  --ink:      #18160f;
+  --ink2:     #3d3a30;
+  --dim:      #6e6a5e;
+  --muted:    #a09b90;
+  --rule:     #ddd9d0;
+  --rule2:    #ccc7bc;
+  --blue:     #1d3d72;
+  --blue2:    #2a5298;
+  --blue-bg:  rgba(29,61,114,0.07);
+  --amber:    #8b5e2a;
+  --amber-bg: rgba(139,94,42,0.08);
+  --green:    #2a6b4a;
+  --red:      #8b2a2a;
+  --serif:    'Cormorant','Georgia',serif;
+  --body:     'Lora',Georgia,serif;
+  --mono:     'IBM Plex Mono',monospace;
+  --ease:     cubic-bezier(0.25,0.46,0.45,0.94);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{background:var(--ivory);color:var(--ink);font-family:var(--body);line-height:1.75;min-height:100vh;overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+#cur-dot{position:fixed;width:7px;height:7px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;will-change:left,top;}
+#cur-ring{position:fixed;width:32px;height:32px;border:1px solid var(--blue);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .13s var(--ease),top .13s var(--ease),width .3s var(--ease),height .3s var(--ease),opacity .2s;will-change:left,top;opacity:.55;}
+body.ch #cur-ring{width:52px;height:52px;opacity:.22;border-color:var(--blue2);}
+body.ch #cur-dot{width:5px;height:5px;background:var(--blue2);}
+
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--blue);z-index:1000;transition:width .1s linear;}
+
+/* SIDEBAR */
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:228px;background:var(--paper);border-right:1px solid var(--rule);display:flex;flex-direction:column;z-index:100;transition:transform .4s var(--ease);}
+.sb-head{padding:34px 26px 26px;border-bottom:1px solid var(--rule);}
+.sb-word{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:9px;}
+.sb-full{font-family:var(--serif);font-size:17.5px;font-weight:300;color:var(--ink);line-height:1.33;margin-bottom:5px;}
+.sb-inst{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.05em;}
+nav{flex:1;padding:14px 0;overflow-y:auto;}
+.ng{font-family:var(--mono);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:16px 26px 6px;}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 26px;font-family:var(--mono);font-size:11.5px;color:var(--dim);cursor:pointer;border-left:2px solid transparent;letter-spacing:.02em;text-decoration:none;transition:color .2s,background .2s;}
+.ni:hover{color:var(--ink);background:var(--paper2);}
+.ni.active{color:var(--blue);border-left-color:var(--blue);background:var(--blue-bg);}
+.ni-n{font-size:8px;opacity:.4;min-width:14px;}
+.sb-foot{padding:18px 26px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:8.5px;color:var(--muted);line-height:1.6;letter-spacing:.04em;}
+
+/* TOPBAR */
+#topbar{position:sticky;top:0;margin-left:228px;background:rgba(250,248,244,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;z-index:50;}
+.tb-path{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;}
+.tb-path em{color:var(--ink2);font-style:normal;}
+.tb-r{display:flex;align-items:center;gap:20px;}
+.pill{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px;}
+.pill-b{background:var(--blue-bg);color:var(--blue);}
+.pill-a{background:var(--amber-bg);color:var(--amber);}
+
+/* MAIN */
+#main{margin-left:228px;}
+.page{display:none;}
+.page.active{display:block;animation:fadeUp .42s var(--ease) both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* TICKER */
+.ticker{background:var(--blue);overflow:hidden;height:30px;display:flex;align-items:center;}
+.ticker-t{display:flex;gap:52px;animation:tick 38s linear infinite;white-space:nowrap;}
+.ti{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.ti::before{content:'◆';font-size:5px;opacity:.5;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* HERO */
+.hero-wrap{min-height:calc(100vh - 80px);display:grid;grid-template-rows:1fr auto;position:relative;overflow:hidden;}
+.hero-canvas{position:absolute;inset:0;pointer-events:none;opacity:.07;}
+.hero-inner{padding:70px 48px 56px;max-width:880px;position:relative;z-index:1;}
+.h-over{display:flex;align-items:center;gap:14px;margin-bottom:38px;}
+.h-over-bar{width:34px;height:1px;background:var(--blue);}
+.h-over-txt{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--blue);}
+.h-sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:34px;}
+.h-title{font-family:var(--serif);font-size:clamp(50px,7vw,84px);font-weight:300;line-height:1.03;color:var(--ink);margin-bottom:8px;letter-spacing:-.01em;}
+.h-title em{font-style:italic;color:var(--blue);}
+.h-desc{font-family:var(--body);font-size:17px;line-height:1.8;color:var(--ink2);max-width:530px;margin-bottom:42px;font-style:italic;}
+.h-acts{display:flex;gap:13px;flex-wrap:wrap;}
+.btn{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:13px 28px;cursor:pointer;border:none;transition:all .25s var(--ease);text-decoration:none;display:inline-block;}
+.btn-s{background:var(--blue);color:#fff;}
+.btn-s:hover{background:var(--blue2);}
+.btn-o{background:transparent;color:var(--ink2);border:1px solid var(--rule2);}
+.btn-o:hover{border-color:var(--blue);color:var(--blue);}
+
+/* HOME GRID */
+.hg{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--rule);}
+.hc{padding:42px 48px;border-bottom:1px solid var(--rule);}
+.hc:nth-child(odd){border-right:1px solid var(--rule);}
+.cl{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:22px;display:flex;align-items:center;gap:10px;}
+.cl::after{content:'';flex:1;height:1px;background:var(--rule);}
+
+/* ANNOUNCE */
+.ai{padding:13px 0;border-bottom:1px solid var(--rule);cursor:pointer;transition:padding-left .2s var(--ease);}
+.ai:hover{padding-left:8px;}
+.ai:last-of-type{border-bottom:none;}
+.ai-m{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.ai-d{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.05em;}
+.ai-t{font-family:var(--body);font-size:15px;color:var(--ink);line-height:1.45;}
+.tag{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;}
+.tp{background:var(--blue-bg);color:var(--blue);}
+.ta{background:var(--amber-bg);color:var(--amber);}
+.tt{background:rgba(42,107,74,.08);color:var(--green);}
+.to{background:rgba(139,42,42,.07);color:var(--red);}
+.tn{background:var(--paper2);color:var(--dim);}
+.ml{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);cursor:pointer;margin-top:17px;text-decoration:none;transition:gap .2s;}
+.ml:hover{gap:10px;}
+.ml::after{content:'→';}
+
+/* PAGE WRAPPER */
+.pw{max-width:900px;margin:0 auto;padding:60px 48px 90px;}
+.ph{margin-bottom:52px;padding-bottom:34px;border-bottom:1px solid var(--rule);}
+.ph-ov{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:11px;}
+.ph-t{font-family:var(--serif);font-size:clamp(34px,5vw,56px);font-weight:300;color:var(--ink);line-height:1.08;margin-bottom:13px;}
+.ph-s{font-family:var(--body);font-size:17px;font-style:italic;color:var(--dim);max-width:540px;line-height:1.75;}
+h3.sub{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;padding-bottom:9px;border-bottom:1px solid var(--rule);}
+
+/* RESEARCH GRID */
+.rso{border:1px solid var(--rule);margin-bottom:56px;overflow:hidden;}
+.rst{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);}
+.rc{padding:42px 38px;background:var(--ivory);transition:background .28s;position:relative;overflow:hidden;cursor:pointer;}
+.rc:hover{background:var(--paper);}
+.rc::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform .38s var(--ease);}
+.rc:hover::after{transform:scaleX(1);}
+.r-num{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.12em;margin-bottom:18px;}
+.r-ic{font-size:24px;margin-bottom:16px;display:block;}
+.r-t{font-family:var(--serif);font-size:21px;font-weight:400;color:var(--ink);line-height:1.28;margin-bottom:10px;}
+.r-d{font-family:var(--body);font-size:13.5px;color:var(--dim);line-height:1.72;margin-bottom:18px;}
+.r-kw{display:flex;flex-wrap:wrap;gap:5px;}
+.kw{font-family:var(--mono);font-size:8px;color:var(--muted);border:1px solid var(--rule2);padding:3px 8px;letter-spacing:.06em;}
+
+/* PUBS */
+.fbar{display:flex;border:1px solid var(--rule);margin-bottom:36px;overflow-x:auto;}
+.ft{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 17px;cursor:pointer;border-right:1px solid var(--rule);transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.ft:last-child{border-right:none;}
+.ft:hover{color:var(--ink);background:var(--paper);}
+.ft.on{color:var(--blue);background:var(--blue-bg);}
+.pa{display:flex;flex-direction:column;}
+.pr{border-bottom:1px solid var(--rule);overflow:hidden;}
+.pr:first-child{border-top:1px solid var(--rule);}
+.pt{display:grid;grid-template-columns:65px 1fr auto;cursor:pointer;transition:background .2s;}
+.pt:hover{background:var(--paper);}
+.py{padding:24px 14px 24px 0;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.05em;align-self:start;padding-top:27px;}
+.pm{padding:19px 0;}
+.pv{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+.pt-t{font-family:var(--body);font-size:15.5px;color:var(--ink);line-height:1.44;margin-bottom:5px;}
+.pt-a{font-family:var(--body);font-size:13px;font-style:italic;color:var(--dim);}
+.pt-a strong{font-style:normal;color:var(--ink2);font-weight:500;}
+.pchev{padding:22px 4px 22px 18px;font-family:var(--mono);font-size:12px;color:var(--muted);align-self:center;transition:transform .3s var(--ease),color .2s;user-select:none;}
+.pr.open .pchev{transform:rotate(180deg);color:var(--blue);}
+.pex{max-height:0;overflow:hidden;transition:max-height .44s var(--ease);}
+.pr.open .pex{max-height:260px;}
+.pex-in{padding:0 0 22px 65px;border-top:1px solid var(--rule);}
+.pabs{font-family:var(--body);font-size:13.5px;color:var(--dim);line-height:1.78;margin-bottom:14px;padding-top:17px;}
+.plk{display:flex;gap:14px;}
+.pl{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);text-decoration:none;cursor:pointer;transition:opacity .2s;border-bottom:1px solid rgba(29,61,114,.25);padding-bottom:1px;}
+.pl:hover{opacity:.6;}
+
+/* TEAM */
+.tpi{display:grid;grid-template-columns:auto 1fr;gap:34px;padding:42px;border:1px solid var(--rule);margin-bottom:1px;background:var(--paper);transition:background .2s;}
+.tpi:hover{background:var(--paper2);}
+.av{width:78px;height:78px;border-radius:50%;background:var(--paper2);border:1px solid var(--rule2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:30px;color:var(--dim);flex-shrink:0;}
+.avs{width:54px;height:54px;border-radius:50%;background:var(--paper2);border:1px solid var(--rule2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:20px;color:var(--dim);flex-shrink:0;margin-bottom:14px;}
+.tr{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:4px;}
+.tn{font-family:var(--serif);font-size:23px;font-weight:400;color:var(--ink);margin-bottom:3px;}
+.taf{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.04em;margin-bottom:13px;}
+.tb{font-family:var(--body);font-size:14px;color:var(--dim);line-height:1.72;margin-bottom:13px;}
+.ti2{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;}
+.tl{display:flex;gap:14px;}
+.tlk{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--dim);text-decoration:none;cursor:pointer;border-bottom:1px solid var(--rule2);transition:color .2s,border-color .2s;padding-bottom:1px;}
+.tlk:hover{color:var(--blue);border-color:var(--blue);}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.sc{background:var(--ivory);padding:34px 30px;transition:background .25s;position:relative;overflow:hidden;}
+.sc:hover{background:var(--paper);}
+.sc::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform .38s var(--ease);}
+.sc:hover::before{transform:scaleX(1);}
+.alr{display:flex;justify-content:space-between;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--rule);}
+.alr:first-child{border-top:1px solid var(--rule);}
+.aln{font-family:var(--body);font-size:16px;color:var(--ink);}
+.ald{font-family:var(--mono);font-size:9px;color:var(--muted);margin-left:10px;letter-spacing:.04em;}
+.alx{font-family:var(--mono);font-size:9.5px;color:var(--dim);letter-spacing:.04em;}
+
+/* BLOG */
+.bf{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);margin-bottom:1px;}
+.bft{padding:42px;border-right:1px solid var(--rule);}
+.bfa{padding:42px;display:flex;flex-direction:column;justify-content:space-between;background:var(--paper);}
+.bgr{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-top:none;}
+.bc{background:var(--ivory);padding:30px 26px;cursor:pointer;transition:background .25s;}
+.bc:hover{background:var(--paper);}
+.bd{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;margin-bottom:11px;}
+.bt{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink);line-height:1.3;margin-bottom:9px;}
+.bf .bt{font-size:28px;}
+.bex{font-family:var(--body);font-size:13.5px;color:var(--dim);line-height:1.7;margin-bottom:14px;}
+.bau{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.05em;}
+.rm{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);cursor:pointer;text-decoration:none;margin-top:13px;transition:gap .2s;}
+.rm:hover{gap:10px;}
+.rm::after{content:'→';}
+.asp{padding:14px 0;border-bottom:1px solid var(--rule);cursor:pointer;}
+.asp:last-child{border-bottom:none;}
+.asp-t{font-family:var(--serif);font-size:15.5px;color:var(--ink);line-height:1.35;margin-bottom:3px;transition:color .2s;}
+.asp:hover .asp-t{color:var(--blue);}
+.asp-m{font-family:var(--mono);font-size:9px;color:var(--muted);}
+
+/* ANNOUNCEMENTS */
+.anf{display:grid;grid-template-columns:128px 1fr;gap:26px;padding:26px 0;border-bottom:1px solid var(--rule);cursor:pointer;transition:padding-left .2s var(--ease);}
+.anf:hover{padding-left:6px;}
+.anfd{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.05em;padding-top:3px;line-height:1.6;}
+.anft{font-family:var(--body);font-size:16px;color:var(--ink);margin-bottom:5px;line-height:1.42;}
+.anfb{font-family:var(--body);font-size:13.5px;color:var(--dim);line-height:1.72;}
+
+/* CONTACT */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:48px;}
+.cc{background:var(--ivory);padding:30px;}
+.ccl{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;}
+.ccv{font-family:var(--body);font-size:15px;color:var(--ink);line-height:1.7;}
+.ccv a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(29,61,114,.25);}
+.jg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.jc{background:var(--ivory);padding:30px;transition:background .2s;}
+.jc:hover{background:var(--paper);}
+.jr{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink);margin-bottom:9px;}
+.jd{font-family:var(--body);font-size:13.5px;color:var(--dim);line-height:1.7;}
+
+/* COLLAB */
+.cs{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;}
+.cc2{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--dim);border:1px solid var(--rule2);padding:6px 13px;transition:all .2s;cursor:default;}
+.cc2:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
+
+/* MODAL */
+.ov{position:fixed;inset:0;background:rgba(24,22,15,.38);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.ov.open{opacity:1;pointer-events:all;}
+.mo{background:var(--ivory);border:1px solid var(--rule2);max-width:640px;width:92%;max-height:82vh;overflow-y:auto;padding:50px 46px;position:relative;transform:translateY(10px);transition:transform .33s var(--ease);box-shadow:0 24px 72px rgba(0,0,0,.1);}
+.ov.open .mo{transform:translateY(0);}
+.mc{position:absolute;top:17px;right:20px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--muted);cursor:pointer;text-transform:uppercase;transition:color .2s;}
+.mc:hover{color:var(--blue);}
+.mo-ov{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:9px;}
+.mo-t{font-family:var(--serif);font-size:28px;font-weight:300;color:var(--ink);line-height:1.2;margin-bottom:22px;}
+.mo-b{font-family:var(--body);font-size:14.5px;color:var(--dim);line-height:1.82;}
+.mo-b p{margin-bottom:13px;}
+.mo-b p:last-child{margin-bottom:0;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--rule2);border-radius:2px;}
+
+/* HAMBURGER */
+.ham{display:none;position:fixed;top:12px;left:12px;z-index:300;background:var(--paper);border:1px solid var(--rule);padding:9px 12px;font-size:16px;color:var(--ink);cursor:pointer;}
+
+@media(max-width:860px){
+  body{cursor:auto;}
+  #cur-dot,#cur-ring{display:none;}
+  #sidebar{transform:translateX(-100%);}
+  #sidebar.open{transform:translateX(0);}
+  #main,#topbar{margin-left:0;}
+  #topbar{position:static;}
+  .ham{display:block;}
+  .hero-inner{padding:70px 22px 48px;}
+  .hg{grid-template-columns:1fr;}
+  .hc:nth-child(odd){border-right:none;}
+  .rst{grid-template-columns:1fr;}
+  .bf{grid-template-columns:1fr;}
+  .bft{border-right:none;border-bottom:1px solid var(--rule);}
+  .bgr{grid-template-columns:1fr;}
+  .sg{grid-template-columns:1fr;}
+  .cg,.jg{grid-template-columns:1fr;}
+  .tpi{grid-template-columns:1fr;gap:18px;}
+  .pw{padding:48px 22px 70px;}
+  .anf{grid-template-columns:1fr;gap:6px;}
+  .pt{grid-template-columns:46px 1fr auto;}
+  .pex-in{padding-left:46px;}
+  .bf .bt{font-size:22px;}
+  .tb-path{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<div id="prog"></div>
+<button class="ham" onclick="toggleSB()">☰</button>
+
+<aside id="sidebar">
+  <div class="sb-head">
+    <div class="sb-word">NeuroSys Lab</div>
+    <div class="sb-full">Neural Systems &amp;<br>Signal Intelligence</div>
+    <div class="sb-inst">EE Dept · IIT Mandi</div>
+  </div>
+  <nav>
+    <div class="ng">Main</div>
+    <a class="ni active" onclick="show('home')"><span class="ni-n">01</span>Home</a>
+    <a class="ni" onclick="show('research')"><span class="ni-n">02</span>Research</a>
+    <a class="ni" onclick="show('publications')"><span class="ni-n">03</span>Publications</a>
+    <a class="ni" onclick="show('team')"><span class="ni-n">04</span>Team</a>
+    <div class="ng">Updates</div>
+    <a class="ni" onclick="show('blog')"><span class="ni-n">05</span>Blog</a>
+    <a class="ni" onclick="show('announcements')"><span class="ni-n">06</span>Announcements</a>
+    <div class="ng">Lab</div>
+    <a class="ni" onclick="show('contact')"><span class="ni-n">07</span>Contact &amp; Join</a>
+  </nav>
+  <div class="sb-foot">© 2025 NeuroSys Lab<br>IIT Mandi · HP 175075<br>Est. 2023</div>
+</aside>
+
+<div id="topbar">
+  <div class="tb-path">NeuroSys / <em id="bread">Home</em></div>
+  <div class="tb-r">
+    <span class="pill pill-b">2 New Pubs</span>
+    <span class="pill pill-a">Position Open</span>
+  </div>
+</div>
+
+<div id="main">
+
+<div id="home" class="page active">
+  <div class="ticker">
+    <div class="ticker-t">
+      <span class="ti">Paper accepted at the Journal of Neural Engineering</span>
+      <span class="ti">Paper accepted at 51st IEEE International Conference on Acoustics, Speech, and Signal Processing ICASSP 2026!</span>
+      <span class="ti">Paper accepted at the Journal of Neural Engineering</span>
+      <span class="ti">Paper accepted at 51st IEEE International Conference on Acoustics, Speech, and Signal Processing ICASSP 2026!</span>
+      <span class="ti">Paper accepted at the Journal of Neural Engineering</span>
+      <span class="ti">Paper accepted at 51st IEEE International Conference on Acoustics, Speech, and Signal Processing ICASSP 2026!</span>
+    </div>
+  </div>
+
+  <div class="hero-wrap">
+    <svg class="hero-canvas" id="eeg-svg" viewBox="0 0 960 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#1d3d72" fill="none" stroke-width="1">
+        <path id="w1" d="M0,65 C120,35 240,95 360,65 C480,35 600,95 720,65 C840,35 960,95 960,65"/>
+        <path id="w2" d="M0,110 C120,80 240,140 360,110 C480,80 600,140 720,110 C840,80 960,140 960,110" stroke-dasharray="4 3" opacity=".55"/>
+        <path id="w3" d="M0,155 C120,125 240,185 360,155 C480,125 600,185 720,155 C840,125 960,185 960,155" stroke-dasharray="2 5" opacity=".3"/>
+      </g>
+    </svg>
+
+    <div class="hero-inner">
+      <div class="h-over">
+        <div class="h-over-bar"></div>
+        <div class="h-over-txt">Electrical Engineering · IIT Mandi · Est. 2023</div>
+      </div>
+      <div class="h-sub">Neural Systems &amp; Signal Intelligence Laboratory</div>
+      <h1 class="h-title">Decoding the<br><em>language</em><br>of the brain.</h1>
+      <p class="h-desc">We develop computational frameworks and foundation models for neural signal analysis — with clinical brain-computer interfaces and AI-assisted neurological diagnostics at the centre.</p>
+      <div class="h-acts">
+        <button class="btn btn-s" onclick="show('research')">Explore Research</button>
+        <button class="btn btn-o" onclick="show('publications')">Publications</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hg">
+    <div class="hc">
+      <div class="cl">Latest News</div>
+      <div class="ai" onclick="show('announcements')"><div class="ai-m"><span class="ai-d">Jan 2026</span><span class="tag tp">Publication</span></div><div class="ai-t">ICASSP 2026 accepted — Femtomodels for EEG Artifact Removal</div></div>
+      <div class="ai" onclick="show('announcements')"><div class="ai-m"><span class="ai-d">Dec 2025</span><span class="tag tp">Publication</span></div><div class="ai-t">JNE accepted — Clinical readiness of AI in EEG-based epilepsy diagnosis</div></div>
+      <div class="ai" onclick="show('announcements')"><div class="ai-m"><span class="ai-d">Jun 2025</span><span class="tag tp">Publication</span></div><div class="ai-t">MLSP 2025 accepted — MicroWaveNet for Robust EEG Denoising</div></div>
+      <a class="ml" onclick="show('announcements')">All announcements</a>
+    </div>
+    <div class="hc">
+      <div class="cl">Research Spotlight</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.12em;margin-bottom:9px;">01 / ARTIFACT REMOVAL &amp; PRETRAINING</div>
+      <div style="font-family:var(--serif);font-size:21px;color:var(--ink);line-height:1.28;margin-bottom:9px;">Robust Parameter Lower-Bound for Denoising</div>
+      <div style="font-family:var(--body);font-size:14px;color:var(--dim);line-height:1.72;">Generalisable EOG denoising relies on precise parameter optimization without sacrificing clinical utility. Our frameworks aim at minimizing network complexity whilst maximizing preservation of neurological biomarkers.</div>
+      <a class="ml" onclick="show('research')">All research areas</a>
+    </div>
+  </div>
+</div>
+
+<div id="research" class="page">
+  <div class="pw">
+    <div class="ph"><div class="ph-ov">Research Areas</div><h1 class="ph-t">Our Work</h1><p class="ph-s">Computational approaches to understanding neural dynamics — with clinical translation at the core.</p></div>
+    <h3 class="sub">Active Research Threads — click to expand</h3>
+    <div class="rso">
+      <div class="rst" id="rst">
+        <div class="rc" onclick="openM('mr1')"><div class="r-num">01 / EEG FOUNDATION MODELS</div><span class="r-ic">⚡</span><div class="r-t">EEG Foundation Models &amp; Self-Supervised Learning</div><div class="r-d">Large-scale pretraining frameworks tailored for EEG, incorporating pathology-aware objectives and information-theoretic constraints that align representations with clinical semantics.</div><div class="r-kw"><span class="kw">Self-Supervised</span><span class="kw">Transformer</span><span class="kw">IIB</span><span class="kw">Multi-Center</span></div></div>
+        <div class="rc" onclick="openM('mr2')"><div class="r-num">02 / BRAIN-COMPUTER INTERFACES</div><span class="r-ic">🧠</span><div class="r-t">Brain-Computer Interfaces &amp; Assistive Neurotechnology</div><div class="r-d">Real-time EEG decoding for communication, motor rehabilitation, and attention monitoring. Full-stack pipelines from streaming acquisition to online adaptive classification.</div><div class="r-kw"><span class="kw">Real-Time</span><span class="kw">SSVEP</span><span class="kw">P300</span><span class="kw">Muse</span></div></div>
+        <div class="rc" onclick="openM('mr3')"><div class="r-num">03 / DYNAMICAL SYSTEMS</div><span class="r-ic">🌀</span><div class="r-t">Chaos Theory &amp; Neural Dynamics</div><div class="r-d">Treating EEG as observations from chaotic attractors — extracting invariant geometric and spectral features via Lyapunov exponents, fractal dimensions, and recurrence quantification.</div><div class="r-kw"><span class="kw">Chaos Theory</span><span class="kw">Lyapunov</span><span class="kw">Attractor</span><span class="kw">RQA</span></div></div>
+        <div class="rc" onclick="openM('mr4')"><div class="r-num">04 / CLINICAL AI</div><span class="r-ic">🏥</span><div class="r-t">Clinical Neurological AI &amp; Epilepsy Diagnosis</div><div class="r-d">Multi-center validation for distinguishing epilepsy from non-epileptic seizure mimickers, with rigorous cross-center evaluation addressing systematic data heterogeneity.</div><div class="r-kw"><span class="kw">Epilepsy</span><span class="kw">IHBAS</span><span class="kw">Biomarkers</span><span class="kw">XAI</span></div></div>
+        <div class="rc" onclick="openM('mr5')"><div class="r-num">05 / BIO-INSPIRED ARCHITECTURES</div><span class="r-ic">🔬</span><div class="r-t">Biologically-Inspired Neural Architectures</div><div class="r-d">Spiking neural networks, reservoir computing, and E/I-balanced attractor networks (BPAN) guided by Dale's law — applied to anytime inference on temporal signals.</div><div class="r-kw"><span class="kw">SNN</span><span class="kw">E/I Balance</span><span class="kw">BPAN</span><span class="kw">Reservoir</span></div></div>
+        <div class="rc" onclick="openM('mr6')"><div class="r-num">06 / INFORMATION THEORY</div><span class="r-ic">📡</span><div class="r-t">Information Theory &amp; Neural Signal Fidelity</div><div class="r-d">The IFB framework quantifies Gaussian mutual information rates between latent neural sources and EEG observations, grounding representation learning in rigorous theory.</div><div class="r-kw"><span class="kw">IFB</span><span class="kw">MI Rate</span><span class="kw">ICA</span><span class="kw">Source Sep.</span></div></div>
+      </div>
+    </div>
+    <h3 class="sub" style="margin-top:52px;">Collaborating Institutions</h3>
+    <div class="cs">
+      <div class="cc2">IHBAS, Delhi</div><div class="cc2">MAX Superspeciality Hospital</div><div class="cc2">MEDICADE</div><div class="cc2">AIIMS Delhi</div><div class="cc2">IIT Delhi</div><div class="cc2">NIMHANS Bangalore</div>
+    </div>
+  </div>
+</div>
+
+<div id="publications" class="page">
+  <div class="pw">
+    <div class="ph"><div class="ph-ov">Academic Output</div><h1 class="ph-t">Publications</h1><p class="ph-s">Peer-reviewed work at the intersection of signal processing, machine learning, and clinical neuroscience.</p></div>
+    <div class="fbar">
+      <div class="ft on" onclick="fpub(this,'all')">All</div>
+      <div class="ft" onclick="fpub(this,'conference')">Conference</div>
+      <div class="ft" onclick="fpub(this,'journal')">Journal</div>
+      <div class="ft" onclick="fpub(this,'workshop')">Workshop</div>
+      <div class="ft" onclick="fpub(this,'2026')">2026</div>
+      <div class="ft" onclick="fpub(this,'2025')">2025</div>
+    </div>
+    <div class="pa" id="pl">
+      <div class="pr" data-t="conference" data-y="2026">
+        <div class="pt" onclick="tPub(this)">
+          <div class="py">2026</div>
+          <div class="pm">
+            <div class="pv">ICASSP 2026 · Conference</div>
+            <div class="pt-t">FEMTOMODELS FOR EEG ARTIFACT REMOVAL: A PARAMETER LOWER-BOUND FOR GENERALISABLE EOG DENOISING</div>
+            <div class="pt-a">Details not available yet but would soon be available</div>
+          </div>
+          <div class="pchev">⌄</div>
+        </div>
+        <div class="pex">
+          <div class="pex-in">
+            <div class="pabs">Details not available yet but would soon be available</div>
+            <div class="plk"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pr" data-t="journal" data-y="2025">
+        <div class="pt" onclick="tPub(this)">
+          <div class="py">2025</div>
+          <div class="pm">
+            <div class="pv">Journal of Neural Engineering · Journal</div>
+            <div class="pt-t">Evaluating the clinical readiness of artificial intelligence in EEG-based epilepsy diagnosis</div>
+            <div class="pt-a"><strong>Jeet B. Lahiri</strong>, P. Agarwal, S. Kushwaha, M. Singh, S. Panwar</div>
+          </div>
+          <div class="pchev">⌄</div>
+        </div>
+        <div class="pex">
+          <div class="pex-in">
+            <div class="pabs">A comprehensive evaluation of the clinical readiness of AI models in diagnosing epilepsy using EEG signals.</div>
+            <div class="plk"><a class="pl" href="https://scholar.google.com/citations?user=3GO-e24AAAAJ&hl=en">View on Google Scholar</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pr" data-t="workshop" data-y="2025">
+        <div class="pt" onclick="tPub(this)">
+          <div class="py">2025</div>
+          <div class="pm">
+            <div class="pv">IEEE MLSP 2025 · Conference</div>
+            <div class="pt-t">MicroWaveNet: Lightweight CBAM-Augmented Wavelet-Attentive Networks for Robust EEG Denoising</div>
+            <div class="pt-a"><strong>Jeet B. Lahiri</strong>, A. Kulkarni, S. Panwar</div>
+          </div>
+          <div class="pchev">⌄</div>
+        </div>
+        <div class="pex">
+          <div class="pex-in">
+            <div class="pabs">A lightweight approach using CBAM-augmented wavelet-attentive networks specifically designed for efficient and robust EEG signal denoising.</div>
+            <div class="plk"><a class="pl" href="https://scholar.google.com/citations?user=3GO-e24AAAAJ&hl=en">View on Google Scholar</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="team" class="page">
+  <div class="pw">
+    <div class="ph"><div class="ph-ov">People</div><h1 class="ph-t">The Team</h1><p class="ph-s">Researchers at the intersection of signal processing, artificial intelligence, and clinical neuroscience.</p></div>
+    <div class="tpi">
+      <div><img src="siddharth.jpeg" alt="Dr. Siddharth Panwar" class="av" style="object-fit:cover;"></div>
+      <div>
+        <div class="tr">Principal Investigator</div>
+        <div class="tn">Dr. Siddharth Panwar</div>
+        <div class="taf">Assistant Professor · Electrical Engineering · IIT Mandi</div>
+        <div class="tb">Dr. Siddharth Panwar received his B.S. from the University of Arizona and M.S. from Stanford University, both in Electrical Engineering. After designing analog circuits at Mosys Inc., he obtained his Ph.D. from IIT Delhi, focusing on engineering novel computational biomarkers from neural signals. He directs research at the intersection of multivariate signal processing, machine learning, and diagnostic medicine, employing a data-centric AI approach.</div>
+        <div class="ti2"><span class="kw">Data-Centric ML</span><span class="kw">Predictive Modeling</span><span class="kw">Multivariate Signal Processing</span></div>
+        <div class="tl"><a class="tlk" href="https://faculty.iitmandi.ac.in/~siddharthpanwar/">Faculty Page</a><a class="tlk" href="https://scholar.google.com/citations?user=X1PTp24AAAAJ&hl=en">Google Scholar</a><a class="tlk" href="mailto:siddharthpanwar@iitmandi.ac.in">siddharthpanwar@iitmandi.ac.in</a></div>
+      </div>
+    </div>
+    <div class="sg">
+      <div class="sc">
+        <img src="jeet.jpeg" class="avs" style="object-fit:cover;">
+        <div class="tr">Ph.D. Scholar</div>
+        <div class="tn">Jeet</div>
+        <div class="taf">IIT Mandi</div>
+        <div class="tb">Information Fidelity Bound of EEG, Neuro-inspired architectures and computing, analysis of multivariate time series, computational neuropathology diagnostic systems, EEG based foundation model.</div>
+        <div class="ti2"><span class="kw">Foundation Models</span><span class="kw">Time Series</span><span class="kw">Neuro-inspired AI</span></div>
+        <div class="tl" style="margin-top:10px;"><a class="tlk" href="mailto:d23146@students.iitmandi.ac.in">d23146@students.iitmandi.ac.in</a></div>
+      </div>
+      <div class="sc">
+        <img src="jasmeet.jpeg" class="avs" style="object-fit:cover;">
+        <div class="tr">Ph.D. Scholar</div>
+        <div class="tn">Jasmeet</div>
+        <div class="taf">IIT Mandi</div>
+        <div class="tb">Deep Learning, Biosignals &amp; Neural Signal Processing, Neural Information Theories, Brain-Computer Interfaces &amp; Neuroimaging Hardware.</div>
+        <div class="ti2"><span class="kw">Deep Learning</span><span class="kw">BCI</span><span class="kw">Neuroimaging</span></div>
+        <div class="tl" style="margin-top:10px;"><a class="tlk" href="mailto:jasmeetsngh19@gmail.com">jasmeetsngh19@gmail.com</a></div>
+      </div>
+      <div class="sc">
+        <img src="nalin.jpeg" class="avs" style="object-fit:cover;">
+        <div class="tr">Ph.D. Scholar</div>
+        <div class="tn">Nalin</div>
+        <div class="taf">IIT Mandi</div>
+        <div class="tb">Investigates information-theoretic limits of biological circuits (e.g., Drosophila optic lobe). Connects physics-inspired principles to connectome data to develop neuromorphic algorithms bridging biological plasticity and efficient AI.</div>
+        <div class="ti2"><span class="kw">Neuromorphic AI</span><span class="kw">Information Theory</span></div>
+        <div class="tl" style="margin-top:10px;"><a class="tlk" href="mailto:d24008@students.iitmandi.ac.in">d24008@students.iitmandi.ac.in</a></div>
+      </div>
+      <div class="sc">
+        <img src="vinay.jpeg" class="avs" style="object-fit:cover;">
+        <div class="tr">Ph.D. Scholar</div>
+        <div class="tn">Vinay</div>
+        <div class="taf">IIT Mandi</div>
+        <div class="tb">Studies brain activity through the lens of nonlinear dynamical systems. Uses dynamical time-series analysis and multivariate signal processing to quantify brain-state transitions, extracting interpretable markers of neural dynamics.</div>
+        <div class="ti2"><span class="kw">Nonlinear Dynamics</span><span class="kw">Brain-State</span></div>
+        <div class="tl" style="margin-top:10px;"><a class="tlk" href="mailto:d23036@students.iitmandi.ac.in">d23036@students.iitmandi.ac.in</a></div>
+      </div>
+      <div class="sc">
+        <img src="utham.jpeg" class="avs" style="object-fit:cover;">
+        <div class="tr">M.Tech. (By Research)</div>
+        <div class="tn">Uthamkumar</div>
+        <div class="taf">IIT Mandi</div>
+        <div class="tb">EMG signal decoding, AI powered prosthetics, Deep learning.</div>
+        <div class="ti2"><span class="kw">EMG</span><span class="kw">Prosthetics</span><span class="kw">Deep Learning</span></div>
+        <div class="tl" style="margin-top:10px;"><a class="tlk" href="mailto:uthamkumar.work@gmail.com">uthamkumar.work@gmail.com</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="blog" class="page">
+  <div class="pw">
+    <div class="ph"><div class="ph-ov">Writing</div><h1 class="ph-t">Lab Blog</h1><p class="ph-s">Research notes, technical essays, and commentary from the lab.</p></div>
+    <div class="bf">
+      <div class="bft"><div class="bd">10 Dec 2024</div><div class="bt">Why Data-Centric ML is Critical for Clinical EEG</div><div class="bex">In modern machine learning, simply adding more data and parameters is frequently celebrated as the primary solution. However, within clinical diagnostics, the quality of the signal and expert curation outweigh raw volume. In this post, we discuss why engineering data carefully using multivariate signal processing yields vastly superior diagnostic predictive models.</div><div class="bau">Jeet · 6 min read</div><a class="rm" onclick="openM('mb1')">Read essay</a></div>
+      <div class="bfa">
+        <div>
+          <div style="font-family:var(--mono);font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">More Posts</div>
+          <div class="asp" onclick="openM('mb2')"><div class="asp-t">Navigating the Trade-off Between Model Complexity and Clinical Data Size</div><div class="asp-m">Jeet · 28 Oct 2024</div></div>
+          <div class="asp" onclick="openM('mb3')"><div class="asp-t">Nonlinear Dynamical Analysis for Neural Signals</div><div class="asp-m">Jeet · 12 Sep 2024</div></div>
+          <div class="asp" onclick="openM('mb4')"><div class="asp-t">Building Lightweight Models for Real-time Artifact Removal</div><div class="asp-m">Jeet · 14 Aug 2024</div></div>
+          <div class="asp" onclick="openM('mb5')"><div class="asp-t">The Role of Information Fidelity in Brain-State Transitions</div><div class="asp-m">Jeet · 22 Jul 2024</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="bgr">
+      <div class="bc" onclick="openM('mb2')"><div class="bd">28 Oct 2024 · Jeet</div><div class="bt">Model Complexity and Data Size</div><div class="bex">Large neural networks overfit rapidly on sparse medical data. We investigate methodologies to reduce network overhead via specialized inductive biases and signal transformations.</div><a class="rm">Read more</a></div>
+      <div class="bc" onclick="openM('mb3')"><div class="bd">12 Sep 2024 · Jeet</div><div class="bt">Nonlinear Dynamics for Brain Signals</div><div class="bex">Examining neural activity as high-dimensional chaotic attractors to detect subtle state shifts missed by traditional Fourier-based spectral analysis.</div><a class="rm">Read more</a></div>
+      <div class="bc" onclick="openM('mb4')"><div class="bd">14 Aug 2024 · Jeet</div><div class="bt">Lightweight EEG Artifact Removal</div><div class="bex">An exploration into creating femtomodels that effectively remove EOG artifacts without disrupting underlying clinical markers.</div><a class="rm">Read more</a></div>
+      <div class="bc" onclick="openM('mb5')"><div class="bd">22 Jul 2024 · Jeet</div><div class="bt">Information Fidelity &amp; Brain States</div><div class="bex">Applying principles of information theory to strictly quantify the preservation of neuronal dynamics in algorithmic reconstruction and signal compression pipelines.</div><a class="rm">Read more</a></div>
+      <div class="bc" onclick="openM('mb6')"><div class="bd">15 Jun 2024 · Jeet</div><div class="bt">Clinical Readiness of AI Frameworks</div><div class="bex">What does it truly take to push an epilepsy detection model from a controlled benchmark environment to full clinical deployment?</div><a class="rm">Read more</a></div>
+    </div>
+  </div>
+</div>
+
+<div id="announcements" class="page">
+  <div class="pw">
+    <div class="ph"><div class="ph-ov">Updates</div><h1 class="ph-t">Announcements</h1><p class="ph-s">News, milestones, and opportunities from the lab.</p></div>
+    <div class="fbar">
+      <div class="ft on" onclick="fann(this,'all')">All</div>
+      <div class="ft" onclick="fann(this,'pub')">Publications</div>
+    </div>
+    <div id="anl">
+      <div class="anf" data-type="pub"><div><div class="anfd">January<br>2026</div><span class="tag tp" style="margin-top:7px;display:inline-block;">Publication</span></div><div><div class="anft">Paper accepted at ICASSP 2026</div><div class="anfb">Femtomodels for EEG Artifact Removal: A Parameter Lower-Bound for Generalisable EOG Denoising, paper accepted at ICASSP 2026, the most prestigious flagship conference of the IEEE Signal Processing Society (IEEE ICASSP 2026)!</div></div></div>
+      <div class="anf" data-type="pub"><div><div class="anfd">December<br>2025</div><span class="tag tp" style="margin-top:7px;display:inline-block;">Publication</span></div><div><div class="anft">Paper accepted at the Journal of Neural Engineering</div><div class="anfb">Evaluating the clinical readiness of artificial intelligence in EEG-Based epilepsy diagnosis, paper accepted at the Journal of Neural Engineering!</div></div></div>
+      <div class="anf" data-type="pub"><div><div class="anfd">June<br>2025</div><span class="tag tp" style="margin-top:7px;display:inline-block;">Publication</span></div><div><div class="anft">Paper accepted at IEEE MLSP 2025</div><div class="anfb">MicroWaveNet: Lightweight CBAM-Augmented Wavelet-Attentive Networks for Robust EEG Denoising, paper accepted at the 35th IEEE International Workshop on Machine Learning for Signal Processing (IEEE MLSP 2025)!</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="contact" class="page">
+  <div class="pw">
+    <div class="ph"><div class="ph-ov">Get in Touch</div><h1 class="ph-t">Contact &amp; Join</h1><p class="ph-s">We welcome inquiries from prospective students, academic collaborators, and clinical partners.</p></div>
+    <div class="cg" style="grid-template-columns:1fr; max-width: 400px;">
+      <div class="cc"><div class="ccl">Principal Investigator</div><div class="ccv">Dr. Siddharth Panwar<br><a href="mailto:siddharthpanwar@iitmandi.ac.in">siddharthpanwar@iitmandi.ac.in</a></div></div>
+      <div class="cc"><div class="ccl">Location</div><div class="ccv">School of Computing and Electrical Engineering (SCEE)<br>IIT Mandi, North Campus<br>Mandi, HP 175075</div></div>
+    </div>
+    <h3 class="sub" style="margin-top:48px;">Joining the Lab</h3>
+    <div class="jg">
+      <div class="jc"><div class="jr">PhD Students</div><div class="jd">Strong fundamentals in signal processing, machine learning, or neuroscience. Admission via IIT Mandi's PhD programme. Send CV, transcripts, and a 1-page research statement to the PI.</div><div style="margin-top:12px;"><span class="kw">Rolling admissions</span></div></div>
+      <div class="jc"><div class="jr">MTech Thesis</div><div class="jd">IIT Mandi MTech students in EE or related departments may pursue thesis work with the lab. Reach out at the start of your second semester. Subject to current lab capacity.</div><div style="margin-top:12px;"><span class="kw">IIT Mandi internal</span></div></div>
+      <div class="jc"><div class="jr">Research Internships</div><div class="jd">Summer internships for outstanding B.Tech and M.Sc students, with active participation in ongoing research. Limited spots; applications open each January.</div><div style="margin-top:12px;"><span class="kw">May – July annually</span></div></div>
+      <div class="jc"><div class="jr">Clinical &amp; Academic Collaboration</div><div class="jd">We collaborate with clinical institutions, academic groups, and industry. Hospitals or companies interested in neurological AI are encouraged to reach out directly.</div><div style="margin-top:12px;"><span class="kw">Clinicians welcome</span></div></div>
+    </div>
+  </div>
+</div>
+
+</div><div class="ov" id="mr1" onclick="closeO(event,'mr1')"><div class="mo"><div class="mc" onclick="closeM('mr1')">[esc] close</div><div class="mo-ov">Research Area 01</div><div class="mo-t">EEG Foundation Models &amp; Self-Supervised Learning</div><div class="mo-b"><p>We design large-scale pretraining frameworks tailored for EEG. Unlike vision or language, EEG presents unique challenges: high inter-subject variability, electrode placement sensitivity, and subtle but clinically critical temporal patterns.</p></div></div></div>
+<div class="ov" id="mr2" onclick="closeO(event,'mr2')"><div class="mo"><div class="mc" onclick="closeM('mr2')">[esc] close</div><div class="mo-ov">Research Area 02</div><div class="mo-t">Brain-Computer Interfaces &amp; Assistive Neurotechnology</div><div class="mo-b"><p>Real-time BCI pipelines using research-grade and consumer-grade EEG. The full stack: acquisition, conditioning, feature extraction, classification, and online adaptation.</p></div></div></div>
+<div class="ov" id="mr3" onclick="closeO(event,'mr3')"><div class="mo"><div class="mc" onclick="closeM('mr3')">[esc] close</div><div class="mo-ov">Research Area 03</div><div class="mo-t">Chaos Theory &amp; Neural Dynamics</div><div class="mo-b"><p>The brain is a high-dimensional nonlinear dynamical system, and EEG captures its projection onto electrode space. We extract invariant geometric features: Lyapunov exponents, correlation dimensions, and recurrence quantification measures.</p></div></div></div>
+<div class="ov" id="mr4" onclick="closeO(event,'mr4')"><div class="mo"><div class="mc" onclick="closeM('mr4')">[esc] close</div><div class="mo-ov">Research Area 04</div><div class="mo-t">Clinical Neurological AI &amp; Epilepsy Diagnosis</div><div class="mo-b"><p>Distinguishing epilepsy from psychogenic non-epileptic seizures is one of the most challenging problems in clinical neurology, with misdiagnosis rates exceeding 20% globally.</p></div></div></div>
+<div class="ov" id="mr5" onclick="closeO(event,'mr5')"><div class="mo"><div class="mc" onclick="closeM('mr5')">[esc] close</div><div class="mo-ov">Research Area 05</div><div class="mo-t">Biologically-Inspired Neural Architectures</div><div class="mo-b"><p>SNNs for temporal sparse coding, reservoir computing for dynamical state estimation, and E/I-balanced attractor networks guided by biological plausibility principles to perform efficient signal modeling.</p></div></div></div>
+<div class="ov" id="mr6" onclick="closeO(event,'mr6')"><div class="mo"><div class="mc" onclick="closeM('mr6')">[esc] close</div><div class="mo-ov">Research Area 06</div><div class="mo-t">Information Theory &amp; Neural Signal Fidelity</div><div class="mo-b"><p>The Information Fidelity Bound provides a rigorous basis for quantifying mutual information rates in latent neural source processes, helping formalize representation learning metrics without relying on surrogate performance alone.</p></div></div></div>
+
+<div class="ov" id="mb1" onclick="closeO(event,'mb1')"><div class="mo"><div class="mc" onclick="closeM('mb1')">[esc] close</div><div class="mo-ov">Essay · Jeet · 10 Dec 2024</div><div class="mo-t">Why Data-Centric ML is Critical for Clinical EEG</div><div class="mo-b"><p>The prevailing wisdom in modern machine learning points towards larger networks and boundless datasets. For language and vision, this yields spectacular results. We argue that for medical diagnostics, particularly clinical EEG, this approach is severely handicapped.</p><p>Clinical data is sparse, heterogenous, and costly. By embedding domain knowledge into our signal extraction pipelines—adopting a data-centric methodology over a model-centric one—we achieve a more interpretable, stable, and accurate predictive model ready for real-world diagnostic applications.</p></div></div></div>
+<div class="ov" id="mb2" onclick="closeO(event,'mb2')"><div class="mo"><div class="mc" onclick="closeM('mb2')">[esc] close</div><div class="mo-ov">Technical Note · Jeet · 28 Oct 2024</div><div class="mo-t">Model Complexity and Data Size</div><div class="mo-b"><p>A deep neural network trained on a hundred EEG scans will almost undoubtedly memorize the training set, failing to generalize to unseen hospitals or device variations. We examine techniques to reduce parameter count explicitly without diminishing representational capacity, finding an elegant balance between model limits and data sparsity.</p></div></div></div>
+<div class="ov" id="mb3" onclick="closeO(event,'mb3')"><div class="mo"><div class="mc" onclick="closeM('mb3')">[esc] close</div><div class="mo-ov">Essay · Jeet · 12 Sep 2024</div><div class="mo-t">Nonlinear Dynamical Analysis for Neural Signals</div><div class="mo-b"><p>While spectral bands (Alpha, Beta, Gamma) offer an intuitive look into cognitive states, they assume stationarity over specific windows. EEG signals trace chaotic trajectories. We highlight how measuring the rate of trajectory divergence can uncover robust computational biomarkers missed by standard Fourier methods.</p></div></div></div>
+<div class="ov" id="mb4" onclick="closeO(event,'mb4')"><div class="mo"><div class="mc" onclick="closeM('mb4')">[esc] close</div><div class="mo-ov">Commentary · Jeet · 14 Aug 2024</div><div class="mo-t">Building Lightweight Models for Real-time Artifact Removal</div><div class="mo-b"><p>Artifacts like eye-blinks (EOG) routinely ruin EEG recordings. Using heavy foundational models to scrub out noise is computationally impractical for portable BCI units. Our recent work pushes the boundary toward minimal-parameter structures—femtomodels—capable of generalizing artifact removal seamlessly across multiple environments.</p></div></div></div>
+<div class="ov" id="mb5" onclick="closeO(event,'mb5')"><div class="mo"><div class="mc" onclick="closeM('mb5')">[esc] close</div><div class="mo-ov">Tutorial · Jeet · 22 Jul 2024</div><div class="mo-t">Information Fidelity &amp; Brain States</div><div class="mo-b"><p>When transferring a continuous analog neural signal into a low-dimensional discrete representation, information is inevitably lost. How do we ensure the lost information wasn't clinically vital? We break down the mathematical constraints necessary to preserve fidelity in machine representations.</p></div></div></div>
+<div class="ov" id="mb6" onclick="closeO(event,'mb6')"><div class="mo"><div class="mc" onclick="closeM('mb6')">[esc] close</div><div class="mo-ov">Essay · Jeet · 15 Jun 2024</div><div class="mo-t">Clinical Readiness of AI Frameworks</div><div class="mo-b"><p>An accuracy metric achieved during K-fold cross-validation is not an indicator of clinical readiness. Models consistently fail when moved to new wards, uncalibrated hardware, or diverse patient demographics. Preparing an AI tool for true clinical integration requires exhaustive evaluations against data-leakage, calibration drift, and interpretability requirements.</p></div></div></div>
+
+<script>
+/* CURSOR */
+const cd=document.getElementById('cur-dot'),cr=document.getElementById('cur-ring');
+document.addEventListener('mousemove',e=>{
+  cd.style.left=e.clientX+'px';cd.style.top=e.clientY+'px';
+  cr.style.left=e.clientX+'px';cr.style.top=e.clientY+'px';
+});
+document.querySelectorAll('a,button,.ni,.ai,.rc,.pt,.bc,.asp,.anf,.sc,.tpi,.alr,.jc,.cc2,.sbt,.mc,.ft,.rm,.ml,.pl,.tlk,.sdot')
+  .forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
+  });
+
+/* SCROLL PROGRESS */
+window.addEventListener('scroll',()=>{
+  const h=document.body.scrollHeight-window.innerHeight;
+  document.getElementById('prog').style.width=(h>0?(window.scrollY/h)*100:0)+'%';
+},{passive:true});
+
+/* PAGE NAV */
+const labels={home:'Home',research:'Research',publications:'Publications',team:'Team',blog:'Blog',announcements:'Announcements',contact:'Contact'};
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.ni').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active');});
+  document.getElementById('bread').textContent=labels[id]||id;
+  document.getElementById('sidebar').classList.remove('open');
+  window.scrollTo(0,0);
+}
+function toggleSB(){document.getElementById('sidebar').classList.toggle('open');}
+
+/* MODALS */
+function openM(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeM(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+function closeO(e,id){if(e.target===document.getElementById(id))closeM(id);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.ov.open').forEach(o=>o.classList.remove('open'));document.body.style.overflow='';}});
+
+/* PUB ACCORDION */
+function tPub(trigger){
+  const row=trigger.closest('.pr'),was=row.classList.contains('open');
+  document.querySelectorAll('.pr').forEach(r=>r.classList.remove('open'));
+  if(!was)row.classList.add('open');
+}
+
+/* FILTERS */
+function fpub(el,f){
+  document.querySelectorAll('#publications .ft').forEach(t=>t.classList.remove('on'));el.classList.add('on');
+  document.querySelectorAll('#pl .pr').forEach(r=>{r.style.display=(f==='all'||r.dataset.t===f||r.dataset.y===f)?'':'none';});
+}
+function fann(el,f){
+  document.querySelectorAll('#announcements .ft').forEach(t=>t.classList.remove('on'));el.classList.add('on');
+  document.querySelectorAll('#anl .anf').forEach(r=>{r.style.display=(f==='all'||r.dataset.type===f)?'':'none';});
+}
+
+/* EEG WAVE ANIMATION */
+(function(){
+  let t=0;
+  const waves=[
+    {el:document.getElementById('w1'),a:22,f:.8,p:0,b:65},
+    {el:document.getElementById('w2'),a:14,f:1.1,p:1.3,b:110},
+    {el:document.getElementById('w3'),a:10,f:.6,p:2.5,b:155}
+  ];
+  function mkpath(a,f,p,b){
+    let d=`M0,${b}`,S=8,W=960,step=W/S;
+    for(let i=0;i<S;i++){
+      const x1=i*step+step*.33,x2=i*step+step*.67,x3=(i+1)*step;
+      const y1=b+a*Math.sin(f*i+p+t),y2=b-a*Math.sin(f*(i+.5)+p+t),y3=b+a*Math.sin(f*(i+1)+p+t);
+      d+=` C${x1},${y1} ${x2},${y2} ${x3},${y3}`;
+    }return d;
+  }
+  function frame(){t+=.013;waves.forEach(w=>{if(w.el)w.el.setAttribute('d',mkpath(w.a,w.f,w.p,w.b));});requestAnimationFrame(frame);}
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
