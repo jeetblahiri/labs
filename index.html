@@ -162,7 +162,7 @@ h3.sub{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:
 .pchev{padding:22px 4px 22px 18px;font-family:var(--mono);font-size:12px;color:var(--muted);align-self:center;transition:transform .3s var(--ease),color .2s;user-select:none;}
 .pr.open .pchev{transform:rotate(180deg);color:var(--blue);}
 .pex{max-height:0;overflow:hidden;transition:max-height .44s var(--ease);}
-.pr.open .pex{max-height:260px;}
+.pr.open .pex{max-height:760px;}
 .pex-in{padding:0 0 22px 65px;border-top:1px solid var(--rule);}
 .pabs{font-family:var(--body);font-size:13.5px;color:var(--dim);line-height:1.78;margin-bottom:14px;padding-top:17px;}
 .plk{display:flex;gap:14px;}
@@ -563,8 +563,8 @@ const publications=[
     label:'Scientific Reports · Journal',
     title:'Energy-efficient information processing and eligibility-trace plasticity in the Drosophila optic lobe connectome',
     authors:'<strong>Nalin Dhiman</strong>, S. Panwar',
-    summary:'Connectome-constrained work on energy-efficient information processing and eligibility-trace plasticity in the Drosophila optic lobe.',
-    links:[]
+    summary:`This work studies the Drosophila optic lobe as a biological information-processing system operating under metabolic constraints. It combines structural graph models, connectome-constrained neural dynamics, and an explicit energy proxy to ask whether the real wiring diagram supports decodable visual information more efficiently than matched null networks. The study finds compressible cell-type structure in the connectome, above-chance motion decoding with a positive mutual-information lower bound, and lower energy use than a connectivity-matched null under the tested operating regime. It also compares learning rules across retinotopic patches, showing that eligibility-trace plasticity aligns learned wiring geometry with the biological connectome more efficiently than REINFORCE-style policy-gradient learning. The abstract-level conclusion is deliberately conservative: the optic-lobe graph contains statistically regular structure, supports useful signal, and offers a plausible substrate for energy-efficient learning.`,
+    links:[{text:'View paper',href:'https://www.nature.com/articles/s41598-026-52140-3'}]
   },
   {
     year:'2026',
@@ -573,8 +573,8 @@ const publications=[
     label:'IEEE Transactions on Cognitive and Developmental Systems · Journal',
     title:'Balanced Predictive Attractor Networks: A Compact Excitatory-Inhibitory Testbed for Anytime and Sequential Inference',
     authors:'<strong>Jeet B. Lahiri</strong>, S. Panwar',
-    summary:'A compact excitatory-inhibitory attractor-network testbed for anytime and sequential inference.',
-    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+    summary:`Balanced Predictive Attractor Networks introduce a lightweight recurrent classifier head inspired by two organizing principles of cortical computation: excitatory-inhibitory balance and attractor-like dynamics. The BPAN module attaches to standard feedforward backbones, separates excitatory and inhibitory populations, enforces Dale-like sign constraints, and regularizes the network toward explicit E/I balance. During training, the recurrent head is unrolled for a small number of steps and optimized end to end with cross-entropy; during inference, it can produce anytime predictions by stopping once confidence crosses a threshold. The paper frames BPAN less as a pure performance race and more as an interpretable testbed for studying how balance, recurrent settling, and sequential evidence accumulation interact in compact neural systems.`,
+    links:[{text:'View paper',href:'https://ieeexplore.ieee.org/abstract/document/11557092/'},{text:'View on Google Scholar',href:scholarLinks.jeet}]
   },
   {
     year:'2026',
@@ -583,8 +583,8 @@ const publications=[
     label:'Journal of Neural Engineering · Journal',
     title:'Robust multi-centre interictal EEG biomarker for distinguishing epilepsy from mimickers',
     authors:'<strong>Jeet B. Lahiri</strong>, P. Agarwal, S. Kushwaha, M. Singh, S. Panwar',
-    summary:'A multi-centre interictal EEG biomarker study for distinguishing epilepsy from clinically important mimickers.',
-    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+    summary:`This paper develops and validates an interpretable interictal EEG biomarker for distinguishing epilepsy from seizure mimickers across multiple clinical centres. It analyzes routine EEG from 448 subjects collected at two tertiary centres, covering both epilepsy subtypes and mimicker categories. The proposed Interictal Clinical Signature summarizes each epoch using 13 features spanning spectral slowing, posterior dominant rhythm, complexity, and network synchrony. A two-stage logistic-regression pipeline converts epoch-level evidence into subject-level predictions, while additional analyses test whether recording length could be confounding the result. Reported within-centre AUC values show moderate but clinically meaningful discrimination, and the study emphasizes robustness, interpretability, and cross-centre validation rather than relying on a single curated dataset.`,
+    links:[{text:'View paper',href:'https://iopscience.iop.org/article/10.1088/1741-2552/ae7906/meta'},{text:'View on Google Scholar',href:scholarLinks.jeet}]
   },
   {
     year:'2026',
@@ -593,8 +593,8 @@ const publications=[
     label:'Preprint',
     title:'Spectral Moment Embedding: A canonical generalisation of Characteristic Response Analysis for covariance-based signal classification',
     authors:'<strong>Jeet B. Lahiri</strong>, S. Panwar',
-    summary:'A covariance-based signal classification framework generalising Characteristic Response Analysis through spectral moment embeddings.',
-    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+    summary:`Spectral Moment Embedding formalizes and extends covariance-based signal descriptors used in EEG, polysomnography, ECG, machine vibration, and inertial sensing. The work starts from Characteristic Response Analysis and its Positive-Orthant Characteristic Response representation, showing that these older descriptors are non-injective and rely on implicit approximations. SME reframes the problem using group-invariant polynomial maps over covariance eigenspaces, proving that sign-flip-invariant covariance features factor through matrix moment sequences and that an upper-triangle projection is generically injective. Experiments across five public datasets show strong gains over CRA/POCR in several signal-classification settings, while the paper also reports a useful negative result: static epoch-level SME features are not enough for motor-imagery BCI, where temporal covariance dynamics are central.`,
+    links:[{text:'View preprint',href:'https://www.researchsquare.com/article/rs-9286518/latest'},{text:'View on Google Scholar',href:scholarLinks.jeet}]
   },
   {
     year:'2026',
@@ -603,8 +603,8 @@ const publications=[
     label:'IEEE ICASSP 2026 · Conference',
     title:'Femtomodels for EEG Artifact Removal: A Parameter Lower-Bound for Generalisable EOG Denoising',
     authors:'<strong>Jeet B. Lahiri</strong>, A. Kulkarni, S. Panwar',
-    summary:'A parameter lower-bound study for generalisable EOG denoising, targeting tiny artifact-removal models that preserve clinically relevant EEG structure.',
-    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+    summary:`This ICASSP paper asks how small an EEG ocular-artifact denoiser can be before performance meaningfully degrades. Instead of assuming that artifact removal requires large neural networks, it performs a parameter-scaling study over lightweight convolutional denoisers with different depth, width, and grouped-mixing choices, ranging from only dozens of parameters to tens of thousands. The results show a clear performance plateau once models reach a small budget of roughly a few thousand parameters, after which extra capacity brings limited benefit. The paper explains this plateau through the low spatial rank and band-limited temporal structure of ocular artifacts, then introduces FemtoEOGClean as a tiny model operating near that lower bound. The practical message is that denoising can be made far more deployable without discarding the signal structure needed for clinical EEG analysis.`,
+    links:[{text:'View paper',href:'https://ieeexplore.ieee.org/abstract/document/11462844/'},{text:'View on Google Scholar',href:scholarLinks.jeet}]
   },
   {
     year:'2025',
@@ -613,8 +613,8 @@ const publications=[
     label:'Journal of Neural Engineering · Journal',
     title:'Evaluating the clinical readiness of artificial intelligence in EEG-based epilepsy diagnosis',
     authors:'<strong>Jeet B. Lahiri</strong>, P. Agarwal, S. Kushwaha, M. Singh, S. Panwar',
-    summary:'A comprehensive evaluation of the clinical readiness of AI models in diagnosing epilepsy using EEG signals.',
-    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+    summary:`This Journal of Neural Engineering article investigates why EEG-based epilepsy classifiers can report near-perfect benchmark accuracy yet fail to appear in routine clinical care. The authors reproduce five widely cited AI models, spanning statistical feature extraction, classical machine learning, and deep learning, using the original benchmark-style training and ten-fold cross-validation setup. They then externally validate the models on an independently curated 19-channel scalp-EEG cohort of 30 clinically verified subjects recorded under standard protocols. By comparing benchmark performance with real-world generalization, the paper exposes the translation gap between closed benchmark success and clinical readiness. Its core contribution is not another leaderboard result, but a framework for evaluating whether epilepsy-diagnosis AI survives changes in cohort, hardware, protocol, and clinical setting.`,
+    links:[{text:'View paper',href:'https://iopscience.iop.org/article/10.1088/1741-2552/ae2714/meta'},{text:'View on Google Scholar',href:scholarLinks.jeet}]
   },
   {
     year:'2025',
@@ -623,8 +623,8 @@ const publications=[
     label:'IEEE MLSP 2025 · Workshop',
     title:'MicroWaveNet: Lightweight CBAM-Augmented Wavelet-Attentive Networks for Robust EEG Denoising',
     authors:'<strong>Jeet B. Lahiri</strong>, A. Kulkarni, S. Panwar',
-    summary:'A lightweight CBAM-augmented wavelet-attentive network for efficient and robust EEG signal denoising.',
-    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+    summary:`MicroWaveNet addresses EEG artifact contamination with a compact deep-learning architecture designed for broad denoising rather than a single artifact type. The model uses a multi-branch Morlet wavelet transform to separate frequency components, helping distinguish neural activity from ocular, muscular, cardiac, electrode, and line-noise artifacts. CBAM-powered attention skip connections guide selective reconstruction of clean EEG features, and the training objective combines alignment-sensitive and reconstruction-oriented losses to preserve temporal structure while removing contamination. With about 60k parameters, the system is designed for practical deployment in clinical analysis and brain-computer interfaces where compute, latency, and signal fidelity all matter. The contribution is a lightweight alternative to heavier denoising networks while still accounting for the diversity of real EEG artifacts.`,
+    links:[{text:'View paper',href:'https://ieeexplore.ieee.org/abstract/document/11204235/'},{text:'View on Google Scholar',href:scholarLinks.jeet}]
   }
 ];
 function renderPublications(){
