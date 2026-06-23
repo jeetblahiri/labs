@@ -363,9 +363,9 @@ h3.sub{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:
   <div class="hg">
     <div class="hc">
       <div class="cl">Latest News</div>
+      <div class="ai" onclick="show('announcements')"><div class="ai-m"><span class="ai-d">2026</span><span class="tag tp">Publication</span></div><div class="ai-t">Scientific Reports — Drosophila optic lobe connectome</div></div>
       <div class="ai" onclick="show('announcements')"><div class="ai-m"><span class="ai-d">Jan 2026</span><span class="tag tp">Publication</span></div><div class="ai-t">ICASSP 2026 accepted — Femtomodels for EEG Artifact Removal</div></div>
       <div class="ai" onclick="show('announcements')"><div class="ai-m"><span class="ai-d">Dec 2025</span><span class="tag tp">Publication</span></div><div class="ai-t">JNE accepted — Clinical readiness of AI in EEG-based epilepsy diagnosis</div></div>
-      <div class="ai" onclick="show('announcements')"><div class="ai-m"><span class="ai-d">Jun 2025</span><span class="tag tp">Publication</span></div><div class="ai-t">MLSP 2025 accepted — MicroWaveNet for Robust EEG Denoising</div></div>
       <a class="ml" onclick="show('announcements')">All announcements</a>
     </div>
     <div class="hc">
@@ -407,64 +407,11 @@ h3.sub{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:
       <div class="ft" onclick="fpub(this,'conference')">Conference</div>
       <div class="ft" onclick="fpub(this,'journal')">Journal</div>
       <div class="ft" onclick="fpub(this,'workshop')">Workshop</div>
+      <div class="ft" onclick="fpub(this,'preprint')">Preprint</div>
       <div class="ft" onclick="fpub(this,'2026')">2026</div>
       <div class="ft" onclick="fpub(this,'2025')">2025</div>
     </div>
-    <div class="pa" id="pl">
-      <div class="pr" data-t="conference" data-y="2026">
-        <div class="pt" onclick="tPub(this)">
-          <div class="py">2026</div>
-          <div class="pm">
-            <div class="pv">ICASSP 2026 · Conference</div>
-            <div class="pt-t">FEMTOMODELS FOR EEG ARTIFACT REMOVAL: A PARAMETER LOWER-BOUND FOR GENERALISABLE EOG DENOISING</div>
-            <div class="pt-a">Details not available yet but would soon be available</div>
-          </div>
-          <div class="pchev">⌄</div>
-        </div>
-        <div class="pex">
-          <div class="pex-in">
-            <div class="pabs">Details not available yet but would soon be available</div>
-            <div class="plk"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pr" data-t="journal" data-y="2025">
-        <div class="pt" onclick="tPub(this)">
-          <div class="py">2025</div>
-          <div class="pm">
-            <div class="pv">Journal of Neural Engineering · Journal</div>
-            <div class="pt-t">Evaluating the clinical readiness of artificial intelligence in EEG-based epilepsy diagnosis</div>
-            <div class="pt-a"><strong>Jeet B. Lahiri</strong>, P. Agarwal, S. Kushwaha, M. Singh, S. Panwar</div>
-          </div>
-          <div class="pchev">⌄</div>
-        </div>
-        <div class="pex">
-          <div class="pex-in">
-            <div class="pabs">A comprehensive evaluation of the clinical readiness of AI models in diagnosing epilepsy using EEG signals.</div>
-            <div class="plk"><a class="pl" href="https://scholar.google.com/citations?user=3GO-e24AAAAJ&hl=en">View on Google Scholar</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pr" data-t="workshop" data-y="2025">
-        <div class="pt" onclick="tPub(this)">
-          <div class="py">2025</div>
-          <div class="pm">
-            <div class="pv">IEEE MLSP 2025 · Conference</div>
-            <div class="pt-t">MicroWaveNet: Lightweight CBAM-Augmented Wavelet-Attentive Networks for Robust EEG Denoising</div>
-            <div class="pt-a"><strong>Jeet B. Lahiri</strong>, A. Kulkarni, S. Panwar</div>
-          </div>
-          <div class="pchev">⌄</div>
-        </div>
-        <div class="pex">
-          <div class="pex-in">
-            <div class="pabs">A lightweight approach using CBAM-augmented wavelet-attentive networks specifically designed for efficient and robust EEG signal denoising.</div>
-            <div class="plk"><a class="pl" href="https://scholar.google.com/citations?user=3GO-e24AAAAJ&hl=en">View on Google Scholar</a></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="pa" id="pl"></div>
   </div>
 </div>
 
@@ -490,7 +437,7 @@ h3.sub{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:
         <div class="taf">IIT Mandi</div>
         <div class="tb">Information Fidelity Bound of EEG, Neuro-inspired architectures and computing, analysis of multivariate time series, computational neuropathology diagnostic systems, EEG based foundation model.</div>
         <div class="ti2"><span class="kw">Foundation Models</span><span class="kw">Time Series</span><span class="kw">Neuro-inspired AI</span></div>
-        <div class="tl" style="margin-top:10px;"><a class="tlk" href="mailto:d23146@students.iitmandi.ac.in">d23146@students.iitmandi.ac.in</a></div>
+        <div class="tl" style="margin-top:10px;"><a class="tlk" href="mailto:d23146@students.iitmandi.ac.in">d23146@students.iitmandi.ac.in</a><a class="tlk" href="https://scholar.google.com/citations?user=3GO-e24AAAAJ&hl=en">Google Scholar</a></div>
       </div>
       <div class="sc">
         <img src="jasmeet.jpeg" class="avs" style="object-fit:cover;">
@@ -565,6 +512,7 @@ h3.sub{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:
       <div class="ft" onclick="fann(this,'pub')">Publications</div>
     </div>
     <div id="anl">
+      <div class="anf" data-type="pub"><div><div class="anfd">2026</div><span class="tag tp" style="margin-top:7px;display:inline-block;">Publication</span></div><div><div class="anft">Paper published in Scientific Reports</div><div class="anfb">Energy-efficient information processing and eligibility-trace plasticity in the Drosophila optic lobe connectome, by Nalin Dhiman and Siddharth Panwar, published in Scientific Reports.</div></div></div>
       <div class="anf" data-type="pub"><div><div class="anfd">January<br>2026</div><span class="tag tp" style="margin-top:7px;display:inline-block;">Publication</span></div><div><div class="anft">Paper accepted at ICASSP 2026</div><div class="anfb">Femtomodels for EEG Artifact Removal: A Parameter Lower-Bound for Generalisable EOG Denoising, paper accepted at ICASSP 2026, the most prestigious flagship conference of the IEEE Signal Processing Society (IEEE ICASSP 2026)!</div></div></div>
       <div class="anf" data-type="pub"><div><div class="anfd">December<br>2025</div><span class="tag tp" style="margin-top:7px;display:inline-block;">Publication</span></div><div><div class="anft">Paper accepted at the Journal of Neural Engineering</div><div class="anfb">Evaluating the clinical readiness of artificial intelligence in EEG-Based epilepsy diagnosis, paper accepted at the Journal of Neural Engineering!</div></div></div>
       <div class="anf" data-type="pub"><div><div class="anfd">June<br>2025</div><span class="tag tp" style="margin-top:7px;display:inline-block;">Publication</span></div><div><div class="anft">Paper accepted at IEEE MLSP 2025</div><div class="anfb">MicroWaveNet: Lightweight CBAM-Augmented Wavelet-Attentive Networks for Robust EEG Denoising, paper accepted at the 35th IEEE International Workshop on Machine Learning for Signal Processing (IEEE MLSP 2025)!</div></div></div>
@@ -604,6 +552,107 @@ h3.sub{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:
 <div class="ov" id="mb6" onclick="closeO(event,'mb6')"><div class="mo"><div class="mc" onclick="closeM('mb6')">[esc] close</div><div class="mo-ov">Essay · Jeet · 15 Jun 2024</div><div class="mo-t">Clinical Readiness of AI Frameworks</div><div class="mo-b"><p>An accuracy metric achieved during K-fold cross-validation is not an indicator of clinical readiness. Models consistently fail when moved to new wards, uncalibrated hardware, or diverse patient demographics. Preparing an AI tool for true clinical integration requires exhaustive evaluations against data-leakage, calibration drift, and interpretability requirements.</p></div></div></div>
 
 <script>
+const scholarLinks={
+  jeet:'https://scholar.google.com/citations?user=3GO-e24AAAAJ&hl=en'
+};
+const publications=[
+  {
+    year:'2026',
+    type:'journal',
+    venue:'Scientific Reports',
+    label:'Scientific Reports · Journal',
+    title:'Energy-efficient information processing and eligibility-trace plasticity in the Drosophila optic lobe connectome',
+    authors:'<strong>Nalin Dhiman</strong>, S. Panwar',
+    summary:'Connectome-constrained work on energy-efficient information processing and eligibility-trace plasticity in the Drosophila optic lobe.',
+    links:[]
+  },
+  {
+    year:'2026',
+    type:'journal',
+    venue:'IEEE Transactions on Cognitive and Developmental Systems',
+    label:'IEEE Transactions on Cognitive and Developmental Systems · Journal',
+    title:'Balanced Predictive Attractor Networks: A Compact Excitatory-Inhibitory Testbed for Anytime and Sequential Inference',
+    authors:'<strong>Jeet B. Lahiri</strong>, S. Panwar',
+    summary:'A compact excitatory-inhibitory attractor-network testbed for anytime and sequential inference.',
+    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+  },
+  {
+    year:'2026',
+    type:'journal',
+    venue:'Journal of Neural Engineering',
+    label:'Journal of Neural Engineering · Journal',
+    title:'Robust multi-centre interictal EEG biomarker for distinguishing epilepsy from mimickers',
+    authors:'<strong>Jeet B. Lahiri</strong>, P. Agarwal, S. Kushwaha, M. Singh, S. Panwar',
+    summary:'A multi-centre interictal EEG biomarker study for distinguishing epilepsy from clinically important mimickers.',
+    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+  },
+  {
+    year:'2026',
+    type:'preprint',
+    venue:'Preprint',
+    label:'Preprint',
+    title:'Spectral Moment Embedding: A canonical generalisation of Characteristic Response Analysis for covariance-based signal classification',
+    authors:'<strong>Jeet B. Lahiri</strong>, S. Panwar',
+    summary:'A covariance-based signal classification framework generalising Characteristic Response Analysis through spectral moment embeddings.',
+    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+  },
+  {
+    year:'2026',
+    type:'conference',
+    venue:'IEEE ICASSP 2026',
+    label:'IEEE ICASSP 2026 · Conference',
+    title:'Femtomodels for EEG Artifact Removal: A Parameter Lower-Bound for Generalisable EOG Denoising',
+    authors:'<strong>Jeet B. Lahiri</strong>, A. Kulkarni, S. Panwar',
+    summary:'A parameter lower-bound study for generalisable EOG denoising, targeting tiny artifact-removal models that preserve clinically relevant EEG structure.',
+    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+  },
+  {
+    year:'2025',
+    type:'journal',
+    venue:'Journal of Neural Engineering 22 (6), 066026',
+    label:'Journal of Neural Engineering · Journal',
+    title:'Evaluating the clinical readiness of artificial intelligence in EEG-based epilepsy diagnosis',
+    authors:'<strong>Jeet B. Lahiri</strong>, P. Agarwal, S. Kushwaha, M. Singh, S. Panwar',
+    summary:'A comprehensive evaluation of the clinical readiness of AI models in diagnosing epilepsy using EEG signals.',
+    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+  },
+  {
+    year:'2025',
+    type:'workshop',
+    venue:'IEEE MLSP 2025',
+    label:'IEEE MLSP 2025 · Workshop',
+    title:'MicroWaveNet: Lightweight CBAM-Augmented Wavelet-Attentive Networks for Robust EEG Denoising',
+    authors:'<strong>Jeet B. Lahiri</strong>, A. Kulkarni, S. Panwar',
+    summary:'A lightweight CBAM-augmented wavelet-attentive network for efficient and robust EEG signal denoising.',
+    links:[{text:'View on Google Scholar',href:scholarLinks.jeet}]
+  }
+];
+function renderPublications(){
+  const list=document.getElementById('pl');
+  if(!list)return;
+  list.innerHTML=publications.map(pub=>{
+    const links=pub.links.length?pub.links.map(link=>`<a class="pl" href="${link.href}" target="_blank" rel="noopener">${link.text}</a>`).join(''):'';
+    return `<div class="pr" data-t="${pub.type}" data-y="${pub.year}">
+        <div class="pt" onclick="tPub(this)">
+          <div class="py">${pub.year}</div>
+          <div class="pm">
+            <div class="pv">${pub.label}</div>
+            <div class="pt-t">${pub.title}</div>
+            <div class="pt-a">${pub.authors}</div>
+          </div>
+          <div class="pchev">⌄</div>
+        </div>
+        <div class="pex">
+          <div class="pex-in">
+            <div class="pabs">${pub.summary}</div>
+            <div class="plk">${links}</div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+renderPublications();
+
 /* CURSOR */
 const cd=document.getElementById('cur-dot'),cr=document.getElementById('cur-ring');
 document.addEventListener('mousemove',e=>{
