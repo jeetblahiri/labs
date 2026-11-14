@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-labelledby="title desc">
+  <title id="title">Neural branches</title>
+  <desc id="desc">A single neuron drawn in warm ivory on deep oxblood, with branching dendrites and a long axon.</desc>
+  <rect width="640" height="640" fill="#3c1827"/>
+  <g fill="none" stroke="#ddc8c5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M302 276C294 247 275 234 265 205S263 163 245 144L218 119"/>
+    <path d="M267 210C246 204 230 190 217 170L195 151M246 145L254 110L244 82M253 112L280 91M219 120L207 91M219 120L188 116M219 172L218 142M234 194L204 195L180 180"/>
+    <path d="M322 277C337 251 339 224 356 204S383 178 387 145L389 114"/>
+    <path d="M355 206C354 184 340 170 339 150L342 124M385 156L412 138L429 113M413 137L439 140M389 115L372 93M389 115L412 87M339 151L319 136M341 126L330 106"/>
+    <path d="M339 290C371 274 386 256 414 251S459 249 479 225L502 197"/>
+    <path d="M409 252C416 231 431 223 441 204L448 183M440 207L424 191M461 242L486 253L516 251M503 198L526 194M502 198L500 172M487 253L494 277M516 252L539 267"/>
+    <path d="M341 311C375 317 392 336 422 338S463 327 488 339L513 356"/>
+    <path d="M419 338C433 356 438 379 459 390L479 400M461 331L477 311L500 304M479 401L498 392M479 401L484 425M513 357L539 350M514 357L525 380M440 377L426 394"/>
+    <path d="M291 291C263 279 242 275 226 253S198 223 168 222L139 219"/>
+    <path d="M226 252C224 233 230 220 225 211M195 228L183 204L181 185M169 223L149 243L127 246M140 220L121 198M140 220L112 218M150 242L153 267"/>
+    <path d="M286 309C258 318 239 333 212 337S173 328 149 341L123 357"/>
+    <path d="M213 337C205 357 188 364 180 384L174 407M175 332L155 313L131 307M124 357L102 349M124 357L110 379M181 384L201 399M174 407L151 414M174 407L182 432"/>
+    <path d="M301 329C286 352 282 368 266 386L239 410"/>
+    <path d="M267 386L269 409L257 433M240 410L214 418M240 410L239 439"/>
+  </g>
+  <g fill="#ddc8c5">
+    <circle cx="244" cy="82" r="3"/><circle cx="280" cy="91" r="3"/>
+    <circle cx="188" cy="116" r="3"/><circle cx="180" cy="180" r="3"/>
+    <circle cx="412" cy="87" r="3"/><circle cx="330" cy="106" r="3"/>
+    <circle cx="439" cy="140" r="3"/><circle cx="526" cy="194" r="3"/>
+    <circle cx="448" cy="183" r="3"/><circle cx="539" cy="267" r="3"/>
+    <circle cx="500" cy="304" r="3"/><circle cx="525" cy="380" r="3"/>
+    <circle cx="484" cy="425" r="3"/><circle cx="112" cy="218" r="3"/>
+    <circle cx="181" cy="185" r="3"/><circle cx="153" cy="267" r="3"/>
+    <circle cx="131" cy="307" r="3"/><circle cx="110" cy="379" r="3"/>
+    <circle cx="151" cy="414" r="3"/><circle cx="257" cy="433" r="3"/>
+  </g>
+  <path d="M302 276C308 285 315 286 322 277C324 289 328 293 339 290C333 302 333 305 341 311C325 312 319 320 318 337C311 328 308 324 301 329C301 316 297 312 286 309C298 303 297 297 291 291C301 293 306 288 302 276Z" fill="#ddc8c5" stroke="#ddc8c5" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="313" cy="305" r="8" fill="#3c1827"/>
+  <circle cx="313" cy="305" r="3" fill="#f3e8dc"/>
+  <g fill="none" stroke="#ddc8c5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M318 337C318 379 306 402 320 439S334 483 319 509L306 530"/>
+    <path d="M320 506C339 509 355 516 365 534M308 528L282 537M308 528L307 554M365 534L387 536M365 534L369 555M283 537L271 555M283 537L262 532"/>
+  </g>
+</svg>
