@@ -63,7 +63,8 @@ html.nalin-profile.nd-viewer-open { overflow: hidden; }
 .nalin-page .nd-viewer-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-color: var(--nd-maze-line) var(--nd-ground); }
 .nalin-page .nd-viewer-mount { display: grid; place-items: center; width: max-content; min-width: 100%; min-height: 100%; padding: 24px; }
 .nalin-page .nd-publications { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 56px; border-top: 1px solid var(--nd-rule); padding-block: 58px 72px; }
-.nalin-page .nd-publications > h2 { margin: 14px 0 0; font-family: var(--nd-serif); font-size: 1.8rem; line-height: 1.3; font-weight: 400; letter-spacing: -.02em; }
+.nalin-page .nd-publication-heading h2 { margin: 14px 0 0; font-family: var(--nd-serif); font-size: 1.8rem; line-height: 1.3; font-weight: 400; letter-spacing: -.02em; }
+.nalin-page .nd-scholar-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 8px; color: var(--nd-soft); font-size: .72rem; text-decoration: underline; text-decoration-color: var(--nd-rule); text-underline-offset: 4px; }
 .nalin-page .nd-publication-list { list-style: none; padding: 0; margin: 0; }
 .nalin-page .nd-publication-list li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 18px; padding-block: 18px; }
 .nalin-page .nd-publication-list li + li { border-top: 1px solid var(--nd-rule); }
@@ -99,7 +100,7 @@ html.nalin-profile.nd-viewer-open { overflow: hidden; }
   .nalin-page .nd-question p { max-width: 26ch; font-size: 1.5rem; }
   .nalin-page .nd-portrait { width: min(100%, 336px); justify-self: center; }
   .nalin-page .nd-publications { grid-template-columns: 1fr; gap: 22px; padding-block: 36px 48px; }
-  .nalin-page .nd-publications > h2 { margin: 0; }
+  .nalin-page .nd-publication-heading h2 { margin: 0; }
   .nalin-page .nd-publication-list li { gap: 10px; }
   .nalin-page .nd-publication-list h3 { font-size: .92rem; }
   .nalin-page .nd-footer { font-size: .6rem; }
