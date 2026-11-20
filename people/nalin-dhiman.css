@@ -62,7 +62,14 @@ html.nalin-profile.nd-viewer-open { overflow: hidden; }
 .nalin-page .nd-viewer-toolbar output { min-width: 46px; color: var(--nd-soft); text-align: center; font-size: .7rem; font-variant-numeric: tabular-nums; }
 .nalin-page .nd-viewer-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-color: var(--nd-maze-line) var(--nd-ground); }
 .nalin-page .nd-viewer-mount { display: grid; place-items: center; width: max-content; min-width: 100%; min-height: 100%; padding: 24px; }
-.nalin-page .nd-publications { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 56px; border-top: 1px solid var(--nd-rule); padding-block: 58px 72px; }
+.nalin-page .nd-interests, .nalin-page .nd-publications { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 56px; border-top: 1px solid var(--nd-rule); padding-block: 58px 72px; }
+.nalin-page .nd-interests > h2 { margin: 0; font-family: var(--nd-serif); font-size: 1.8rem; line-height: 1.3; font-weight: 400; letter-spacing: -.02em; }
+.nalin-page .nd-interests-copy { max-width: 66ch; color: var(--nd-soft); font-size: .95rem; line-height: 1.9; }
+.nalin-page .nd-interests-copy p { margin: 0; }
+.nalin-page .nd-interests-copy p + p { margin-top: 20px; }
+.nalin-page .nd-interests-copy .nd-hobbies { margin-top: 28px; color: var(--nd-muted); font-size: .8rem; }
+.nalin-page .nd-hobbies span { color: var(--nd-soft); }
+.nalin-page .nd-poems-link { color: var(--nd-ink); text-decoration: underline; text-decoration-color: var(--nd-muted); text-underline-offset: 4px; }
 .nalin-page .nd-publication-heading h2 { margin: 14px 0 0; font-family: var(--nd-serif); font-size: 1.8rem; line-height: 1.3; font-weight: 400; letter-spacing: -.02em; }
 .nalin-page .nd-scholar-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 8px; color: var(--nd-soft); font-size: .72rem; text-decoration: underline; text-decoration-color: var(--nd-rule); text-underline-offset: 4px; }
 .nalin-page .nd-publication-list { list-style: none; padding: 0; margin: 0; }
@@ -86,7 +93,7 @@ html.nalin-profile.nd-viewer-open { overflow: hidden; }
   .nalin-page .nd-main { grid-template-columns: minmax(0, 1fr) 280px; gap: 36px; padding-block: 54px 76px; }
   .nalin-page h1 { font-size: 3.8rem; }
   .nalin-page .nd-desktop-break { display: none; }
-  .nalin-page .nd-publications { grid-template-columns: 170px minmax(0, 1fr); gap: 30px; }
+  .nalin-page .nd-interests, .nalin-page .nd-publications { grid-template-columns: 170px minmax(0, 1fr); gap: 30px; }
 }
 @media (max-width: 700px) {
   .nalin-page .nd-page { width: calc(100% - 48px); }
@@ -99,7 +106,8 @@ html.nalin-profile.nd-viewer-open { overflow: hidden; }
   .nalin-page .nd-question { margin-top: 36px; }
   .nalin-page .nd-question p { max-width: 26ch; font-size: 1.5rem; }
   .nalin-page .nd-portrait { width: min(100%, 336px); justify-self: center; }
-  .nalin-page .nd-publications { grid-template-columns: 1fr; gap: 22px; padding-block: 36px 48px; }
+  .nalin-page .nd-interests, .nalin-page .nd-publications { grid-template-columns: 1fr; gap: 22px; padding-block: 36px 48px; }
+  .nalin-page .nd-interests-copy { font-size: .92rem; }
   .nalin-page .nd-publication-heading h2 { margin: 0; }
   .nalin-page .nd-publication-list li { gap: 10px; }
   .nalin-page .nd-publication-list h3 { font-size: .92rem; }

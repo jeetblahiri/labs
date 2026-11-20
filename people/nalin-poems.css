@@ -1,0 +1,87 @@
+/* Poetry uses Nalin's profile palette and serif, with a local Devanagari companion. */
+@font-face {
+  font-family: 'Nalin Devanagari';
+  src: url('fonts/NotoSerifDevanagari-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+.np-page { --np-hindi: 'Nalin Devanagari', 'Noto Serif Devanagari', serif; }
+.np-page :lang(hi) { font-family: var(--np-hindi); font-weight: 400; letter-spacing: normal; }
+.np-page .np-main { flex: 1; min-width: 0; padding-bottom: 80px; }
+.np-page .np-intro { display: grid; grid-template-columns: minmax(0, 1fr) 236px; gap: 60px; align-items: center; padding-block: 64px 72px; }
+.np-page .np-intro h1 { margin-bottom: 16px; font-size: clamp(3rem, 6.4vw, 5.4rem); }
+.np-page .np-intro .nd-eyebrow { margin-bottom: 22px; }
+.np-page .np-subtitle { margin: 0; color: var(--nd-soft); font-size: 1.3rem; line-height: 1.8; }
+.np-page .np-intro-copy { margin: 22px 0 0; color: var(--nd-soft); font-size: .9rem; line-height: 1.8; }
+.np-page .np-art { display: block; width: 100%; max-width: 236px; height: auto; color: var(--nd-maze-line); }
+.np-page .np-language-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 26px; border-top: 1px solid var(--nd-rule); padding-block: 16px 24px; }
+.np-page .np-language-nav a { display: inline-flex; align-items: center; min-height: 44px; gap: 10px; font-size: .8rem; color: var(--nd-soft); }
+.np-page .np-language-nav a:lang(hi) { font-size: .95rem; }
+.np-page .np-language-nav .np-count { font: .6rem var(--nd-sans); color: var(--nd-muted); }
+.np-page .np-language-section { padding-top: 30px; scroll-margin-top: 24px; }
+.np-page .np-language-section + .np-language-section { padding-top: 76px; }
+.np-page .np-section-heading { display: flex; align-items: baseline; gap: 16px; margin-bottom: 24px; }
+.np-page .np-section-heading h2 { margin: 0; color: var(--nd-ink); font: 400 1.8rem/1.5 var(--nd-serif); }
+.np-page .np-section-heading h2:lang(hi) { font-family: var(--np-hindi); font-size: 1.5rem; }
+.np-page .np-section-heading > span { color: var(--nd-muted); font-size: .67rem; }
+.np-page .np-poem { border-top: 1px solid var(--nd-rule); scroll-margin-top: 24px; }
+.np-page .np-poem:last-child { border-bottom: 1px solid var(--nd-rule); }
+.np-page .np-poem > summary { display: grid; grid-template-columns: 26px minmax(0, 1fr) 44px; align-items: baseline; gap: 22px; min-height: 84px; padding-block: 22px; cursor: pointer; list-style: none; }
+.np-page .np-poem > summary::-webkit-details-marker { display: none; }
+.np-page .np-poem > summary::marker { content: ''; }
+.np-page .np-poem > summary::after { content: '+'; grid-column: 3; grid-row: 1; align-self: center; justify-self: center; color: var(--nd-muted); font: 300 1.4rem/1 var(--nd-sans); }
+.np-page .np-poem[open] > summary::after { content: '−'; }
+.np-page .np-poem > summary:hover h3 { color: var(--nd-ink); }
+.np-page .np-number { color: var(--nd-muted); font: .63rem var(--nd-sans); font-variant-numeric: tabular-nums; }
+.np-page .np-poem h3 { margin: 0; color: var(--nd-soft); font: 400 1.6rem/1.6 var(--nd-serif); }
+.np-page .np-poem:lang(hi) h3 { font-family: var(--np-hindi); font-size: 1.4rem; line-height: 1.9; }
+.np-page .np-poem[open] h3 { color: var(--nd-ink); }
+.np-page .np-poem-body { display: grid; grid-template-columns: minmax(0, 1fr) 200px; column-gap: 76px; align-items: start; padding: 20px 0 56px 48px; }
+.np-page .np-verse { min-width: 0; color: var(--nd-ink); font: 400 1.17rem/1.85 var(--nd-serif); }
+.np-page .np-poem:lang(hi) .np-verse { font-family: var(--np-hindi); font-size: 1.08rem; line-height: 2.05; }
+.np-page .np-stanza { margin: 0; }
+.np-page .np-stanza + .np-stanza { margin-top: 1.5em; }
+.np-page .np-line { display: block; padding-left: 1.2em; text-indent: -1.2em; overflow-wrap: break-word; }
+.np-page .np-signature { margin: 34px 0 0; color: var(--nd-muted); font: .73rem/1.8 var(--nd-sans); }
+.np-page .np-poem:lang(hi) .np-signature { font-family: var(--np-hindi); font-size: .85rem; }
+.np-page .np-poem-body .np-art { margin-top: 10px; }
+.np-page .np-reading-end { grid-column: 1 / -1; margin-top: 26px; }
+.np-page .np-close { min-height: 44px; padding: 8px 0; border: 0; color: var(--nd-muted); background: transparent; font: .7rem var(--nd-sans); text-decoration: underline; text-decoration-color: var(--nd-rule); text-underline-offset: 4px; cursor: pointer; }
+.np-page .np-close:lang(hi) { font-family: var(--np-hindi); font-size: .82rem; }
+.np-page .np-close:hover { color: var(--nd-ink); }
+.np-page .np-close[hidden] { display: none; }
+.np-page .np-footer { display: flex; justify-content: space-between; gap: 24px; }
+@media (max-width: 960px) {
+  .np-page .np-intro { grid-template-columns: minmax(0, 1fr) 180px; gap: 36px; }
+  .np-page .np-poem-body { grid-template-columns: minmax(0, 1fr) 140px; column-gap: 36px; }
+}
+@media (max-width: 700px) {
+  .np-page .np-main { padding-bottom: 48px; }
+  .np-page .np-intro { grid-template-columns: minmax(0, 1fr) 100px; align-items: start; gap: 12px; padding-block: 42px 44px; }
+  .np-page .np-intro h1 { font-size: clamp(2.5rem, 9vw, 3.5rem); }
+  .np-page .np-intro .np-art { margin-top: 6px; }
+  .np-page .np-subtitle { font-size: 1.08rem; }
+  .np-page .np-intro-copy { grid-column: 1 / -1; font-size: .82rem; }
+  .np-page .np-language-nav { padding-bottom: 8px; }
+  .np-page .np-section-heading h2 { font-size: 1.55rem; }
+  .np-page .np-section-heading h2:lang(hi) { font-size: 1.35rem; }
+  .np-page .np-poem > summary { grid-template-columns: 18px minmax(0, 1fr) 30px; gap: 10px; padding-block: 18px; }
+  .np-page .np-poem h3 { font-size: 1.38rem; }
+  .np-page .np-poem:lang(hi) h3 { font-size: 1.15rem; }
+  .np-page .np-poem-body { grid-template-columns: minmax(0, 1fr); padding: 12px 0 38px; }
+  .np-page .np-verse { font-size: 1.08rem; }
+  .np-page .np-poem:lang(hi) .np-verse { font-size: 1rem; }
+  .np-page .np-poem-body .np-art { width: 132px; justify-self: end; margin-top: 28px; }
+  .np-page .np-reading-end { margin-top: 6px; }
+  .np-page .np-language-section + .np-language-section { padding-top: 56px; }
+}
+@media print {
+  html.nalin-profile { color-scheme: light; --nd-ground: #fff; --nd-ink: #111; --nd-soft: #222; --nd-muted: #444; --nd-rule: #ccc; }
+  .np-page .nd-page { width: 100%; }
+  .np-page .nd-header, .np-page .np-language-nav, .np-page .np-reading-end, .np-page .np-art, .np-page .np-footer { display: none; }
+  .np-page .np-intro { display: block; padding-block: 0 24px; }
+  .np-page .np-poem-body { display: block; padding: 16px 0; }
+  .np-page .np-poem > summary::after { content: none; }
+  .np-page .np-stanza { break-inside: avoid; }
+}
